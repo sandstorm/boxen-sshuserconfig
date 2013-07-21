@@ -1,4 +1,4 @@
-define sshuserconfig::host(  
+define sshuserconfig::host(
   $remote_hostname,
   $remote_username,
   $priv_key_name = 'id_rsa',
@@ -8,8 +8,9 @@ define sshuserconfig::host(
   #determine were to store the entry (for which user)
   $unix_user = $user ? {
     undef   => $::luser,
-	default => $user
-  }	
+	 default => $user
+  }
+
   #TODO: make an OS exception here or an variable, so Linux users can set /home as path for user folders
   #$rootgroup = $osfamily ? {
   #        'Solaris'          => 'wheel',
@@ -17,7 +18,7 @@ define sshuserconfig::host(
   #        default            => 'root',
   #    }
   $ssh_dir = "/Users/${unix_user}/.ssh"
-  $privkey_path = "${ssh_dir}/$priv_key_name"  
+  $privkey_path = "${ssh_dir}/$priv_key_name"
   $alias = "${title}"
   $entry_dest = "${ssh_dir}/config.d/${alias}"
 
@@ -27,6 +28,6 @@ define sshuserconfig::host(
   Port ${remote_port}
   User ${remote_username}
   IdentityFile ${privkey_path}\n\n",
-	ensure => 'present',
-  }     
+  ensure => 'present',
+  }
 }
