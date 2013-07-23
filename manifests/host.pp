@@ -8,7 +8,7 @@ define sshuserconfig::host(
   #determine were to store the entry (for which user)
   $unix_user = $user ? {
     undef   => $::luser,
-	 default => $user
+    default => $user
   }
 
   #TODO: make an OS exception here or an variable, so Linux users can set /home as path for user folders
@@ -22,12 +22,15 @@ define sshuserconfig::host(
   $alias = "${title}"
   $entry_dest = "${ssh_dir}/config.d/${alias}"
 
-  file { $entry_dest :
+  file { "${title}_${entry_dest}" :
+    path => $entry_dest,
+    ensure => 'present',
     content => "Host ${alias}
   HostName ${remote_hostname}
   Port ${remote_port}
   User ${remote_username}
   IdentityFile ${privkey_path}\n\n",
-  ensure => 'present',
+  
+
   }
 }
