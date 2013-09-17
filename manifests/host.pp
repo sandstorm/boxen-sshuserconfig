@@ -16,11 +16,12 @@ define sshuserconfig::host(
 	$ssh_dir = "/Users/${unix_user}/.ssh"
 	$alias = "${title}"
 	$entry_dest = "${ssh_dir}/config.d/${alias}"
+	$config = join($configLines, "\n\t")
 	
 	file { "${title}_${entry_dest}" :
 		path => $entry_dest,
 		ensure => 'present',
-		content => "Host ${alias}" + join($configLines, "\n\t"),
+		content => "Host ${alias}\n\t${config}",
 		notify => Exec['sshuserconfig_generate_config'],
 	}
 }
