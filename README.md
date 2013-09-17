@@ -1,41 +1,60 @@
 SSH Config (alias) Boxen Puppet Module
 ============================
+This module allows you to define your local .ssh/config with Boxen.
+Since we expect our configuration in noxen to be complete,
+	any local changes in .ssh/config are purged.
 
-Basically started to derive from Jimdo/puppet-sshuserconfig,  but in the end i rather completly rewritten (sadly)
+The config file is generated in two steps:
+* all host-entries are written to an own file using a debian-art .ssh/config.d/<alias>
+* all files in config.d are concatenated to .ssh/config
 
-This module lets you maintain your .ssh/config a sain way, using the debian-art .ssh/config.d/<alias> folder
-Every entry in .ssh/config.d/* will be used to generate the .ssh/config file automatically - so it does not change the way ssh works,
-but rather generates the config file ( instead of concatenating).
+Note that old files and directories in .ssh/config.d are purged.
 
-This makes maintaing entrys much easier and convinient.
+We use this module with Boxen.
 
-This module is perfectly compatible with Boxen
+Installation
+---------
+To use this module in Boxen,
+	you have to include it to boxen.
+Add the following line to the file 'Puppetfile':
+```puppet
+github "sshuserconfig", "0.1.0", :repo => "sandstorm/boxen-sshuserconfig"
+´´´
+
 Usage
 ---------
 ```puppet
-# this does setup the .ssh config, backups your old one 
-#and uses it as an entry in .ssh/config.d/config_old
-include sshuserconfig 
+# creates or purges the .ssh/cofig.d
+include sshuserconfig
 
-# that actually adds a new entry, which will be place under
-# ~/.ssh/config.d/aliasname
-sshuserconfig::host {
-"aliasname":
-remote_hostname => "somehost.tld",
-remote_username => 'root',
+# actual host-entry
+# will be places in .ssh/config and .ssh/config.d/example.net
+sshuserconfig::host { "example.net":
+	configLines => [
+		'Username userName',
+		'Port 22',
+		'...'
+	],
 }
 
-#you can also set the 
-# - priv_key_name
-# - remote_port
-# - user ( the user this entry should stored for, so the "destination home folder")
+# another host-entry
+# will be places in .ssh/config and .ssh/config.d/home
+sshuserconfig::host { "home":
+	configLines => [
+		'HostName localhost'
+	],
+}
+
+# another host-entry, but for the system user 'localUser'
+# will be places in .ssh/config and .ssh/config.d/home
+sshuserconfig::host { "home":
+	user = 'localUser',
+	configLines => [
+		'HostName localhost'
+	],
+}
 ```
 
-For now, see ToDos, the .ssh/config file does not get generated, since i cant get it work sshuserconfig::generate to work (timig based). You have to run
-
-```bash
-cat ~/.ssh/config.d/* > ~/.ssh/config
-```
 Requirements
 ------------
 
@@ -44,17 +63,45 @@ Requirements
 Manifests
 ---------
 
-* init.pp : us it like "includ sshuserconfig" to setup you .ssh folder correctly. 
+* init.pp : used by "include sshuserconfig", sets up .ssh/config.d folder correctly (for executing user)
 * host.pp : use this to generate a new entry
 
 Hints
 ---------
-After your first run, your old config gets backuped to config.old and copied as an "alias" to config.d/config_old
-You should remove that old config when you have done using sshuserconfig to maintain your entrys one by one
+The local .ssh/config is overridden,
+	so make sure that to port its full content to your boxen config BEFORE executing boxen.
+A local copy of .ssh/config might suffice as well.
+
+The feature to generate .ssh/config files for users other than the executing user has not been tested sufficiently yet.
+
+Feel free to improve this solution.
 
 ToDo
 ---------
-- [x] make first-run convinient (backup old config, use old config)
-- [ ] Important: get sshuserconfig::generate to work ( as a notify or manuelly)
-- [ ] remove the OSX requirement and make it Linux compatible ( bascically just abstract the default user folder - thats it)
-- [ ] more docs
+* remove the OSX requirement and make it Linux compatible ( bascically just abstract the default user folder - thats it)
+* more docs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

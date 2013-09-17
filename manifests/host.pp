@@ -1,5 +1,6 @@
 define sshuserconfig::host(
-  $configLines
+  $configLines,
+  $user = undef
 ) {
 	#determine were to store the entry (for which user)
 	$unix_user = $user ? {
