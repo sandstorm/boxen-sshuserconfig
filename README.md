@@ -76,6 +76,7 @@ Feel free to improve this solution.
 
 ToDo
 ---------
+* only removing host entries does not trigger the generation of the .ssh/config
 * remove the OSX requirement and make it Linux compatible (basically just abstract the default user folder - thats it)
 * more documention
 
