@@ -1,15 +1,16 @@
 SSH Config (alias) Boxen Puppet Module
 ============================
 
-Basically started to derive from Jimdo/puppet-sshuserconfig,  but in the end i rather completly rewritten (sadly)
+Basically I started to derive from Jimdo/puppet-sshuserconfig,  but in the end I rather completely rewrote the functionality (sadly).
 
-This module lets you maintain your .ssh/config a sain way, using the debian-art .ssh/config.d/<alias> folder
-Every entry in .ssh/config.d/* will be used to generate the .ssh/config file automatically - so it does not change the way ssh works,
-but rather generates the config file ( instead of concatenating).
+This module lets you maintain your `.ssh/config` a sane way, using the debian-style `.ssh/config.d/<alias>` folder
+Every entry in `.ssh/config.d/*` will be used to generate the `.ssh/config` file automatically - so it does not change the way ssh works,
+but rather generates the config file.
 
-This makes maintaing entrys much easier and convinient.
+This makes maintaing entries much easier and convenient.
 
-This module is perfectly compatible with Boxen
+This module is perfectly compatible with Boxen.
+
 Usage
 ---------
 ```puppet
@@ -31,30 +32,14 @@ remote_username => 'root',
 # - user ( the user this entry should stored for, so the "destination home folder")
 ```
 
-For now, see ToDos, the .ssh/config file does not get generated, since i cant get it work sshuserconfig::generate to work (timig based). You have to run
-
-```bash
-cat ~/.ssh/config.d/* > ~/.ssh/config
-```
 Requirements
 ------------
 
 * OSX (for now) 
+* Boxen
 
 Manifests
 ---------
 
-* init.pp : us it like "includ sshuserconfig" to setup you .ssh folder correctly. 
+* init.pp : use it like `include sshuserconfig` to setup your .ssh folder correctly. 
 * host.pp : use this to generate a new entry
-
-Hints
----------
-After your first run, your old config gets backuped to config.old and copied as an "alias" to config.d/config_old
-You should remove that old config when you have done using sshuserconfig to maintain your entrys one by one
-
-ToDo
----------
-- [x] make first-run convinient (backup old config, use old config)
-- [ ] Important: get sshuserconfig::generate to work ( as a notify or manuelly)
-- [ ] remove the OSX requirement and make it Linux compatible ( bascically just abstract the default user folder - thats it)
-- [ ] more docs
