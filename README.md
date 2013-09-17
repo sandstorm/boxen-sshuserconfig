@@ -28,7 +28,7 @@ include sshuserconfig
 # will be places in .ssh/config and .ssh/config.d/example.net
 sshuserconfig::host { "example.net":
 	configLines => [
-		'Username userName',
+		'User userName',
 		'Port 22',
 		'...'
 	],
