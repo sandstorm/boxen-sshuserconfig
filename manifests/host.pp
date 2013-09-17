@@ -30,6 +30,6 @@ define sshuserconfig::host(
 			Port ${remote_port}
 			User ${remote_username}
 			IdentityFile ${privkey_path}\n\n",
-		notify => Exec['sshuserconfig_refresh_config'],
+		notify => Exec['sshuserconfig_generate_config'],
 	}
 }
