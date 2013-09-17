@@ -1,7 +1,7 @@
 SSH Config (alias) Boxen Puppet Module
 ============================
 This module allows you to define your local .ssh/config with Boxen.
-Since we expect our configuration in noxen to be complete,
+Since we expect our configuration in Boxen to be complete,
 	any local changes in .ssh/config are purged.
 
 The config file is generated in two steps:
@@ -10,13 +10,10 @@ The config file is generated in two steps:
 
 Note that old files and directories in .ssh/config.d are purged.
 
-We use this module with Boxen.
-
 Installation
 ---------
-To use this module in Boxen,
-	you have to include it to boxen.
-Add the following line to the file 'Puppetfile'.
+To use this module you have to include it to Boxen.
+To do so add the following line to the file 'Puppetfile'.
 ```puppet
 github "sshuserconfig", "0.1.0", :repo => "sandstorm/boxen-sshuserconfig"
 ```
@@ -24,7 +21,7 @@ github "sshuserconfig", "0.1.0", :repo => "sandstorm/boxen-sshuserconfig"
 Usage
 ---------
 ```puppet
-# creates or purges the .ssh/cofig.d
+# creates or purges the .ssh/cofig.d in ~/.ssh of the executing user
 include sshuserconfig
 
 # actual host-entry
@@ -46,7 +43,8 @@ sshuserconfig::host { "home":
 }
 
 # another host-entry, but for the system user 'localUser'
-# will be places in .ssh/config and .ssh/config.d/home
+# will be places in .ssh/config and .ssh/config.d/home of localUser
+# this features needs improvement (see ToDo)
 sshuserconfig::host { "home":
 	user = 'localUser',
 	configLines => [
@@ -58,12 +56,12 @@ sshuserconfig::host { "home":
 Requirements
 ------------
 
-* OSX (for now) 
+* OS X (see ToDo) 
 
 Manifests
 ---------
 
-* init.pp : used by "include sshuserconfig", sets up .ssh/config.d folder correctly (for executing user)
+* init.pp : "include sshuserconfig" sets up .ssh/config.d folder correctly (for executing user)
 * host.pp : use this to generate a new entry
 
 Hints
