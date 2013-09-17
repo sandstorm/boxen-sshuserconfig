@@ -22,7 +22,7 @@ define sshuserconfig::host(
 	file { "${title}_${entry_dest}" :
 		path => $entry_dest,
 		ensure => 'present',
-		content => "Host ${alias}\n\t${config}",
+		content => "Host ${alias}\n\t${config}\n\n",
 		notify => Exec['sshuserconfig_generate_config'],
 	}
 }

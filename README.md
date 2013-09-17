@@ -15,7 +15,7 @@ Installation
 To use this module you have to include it to Boxen.
 To do so add the following line to the file 'Puppetfile'.
 ```puppet
-github "sshuserconfig", "0.1.0", :repo => "sandstorm/boxen-sshuserconfig"
+github "sshuserconfig", "0.1.1", :repo => "sandstorm/boxen-sshuserconfig"
 ```
 
 Usage
