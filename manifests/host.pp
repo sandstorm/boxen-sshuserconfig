@@ -1,9 +1,9 @@
 define sshuserconfig::host(
-  $remote_hostname,
-  $remote_username,
-  $priv_key_name = 'id_rsa',
+  $remote_hostname = undef,
+  $remote_port = undef,
+  $remote_username = undef,
+  $priv_key_name = undef,
   $user = undef,
-  $remote_port = 22,
 ) {
 	#determine were to store the entry (for which user)
 	$unix_user = $user ? {
@@ -18,10 +18,19 @@ define sshuserconfig::host(
 	#        default            => 'root',
 	#    }
 	$ssh_dir = "/Users/${unix_user}/.ssh"
-	$privkey_path = "${ssh_dir}/$priv_key_name"
 	$alias = "${title}"
 	$entry_dest = "${ssh_dir}/config.d/${alias}"
 
+	$content = "Host ${alias}"
+	unless $remote_hostname == undef
+		$content += "HostName ${remote_hostname}"
+	unless $remote_port == undef
+		$content += "Port ${remote_port}"
+	unless $remote_username == undef
+		$content += "User ${remote_username}"
+	unless $priv_key_name == undef
+		$content += "IdentityFile ${ssh_dir}/${priv_key_name}"
+	
 	file { "${title}_${entry_dest}" :
 		path => $entry_dest,
 		ensure => 'present',
