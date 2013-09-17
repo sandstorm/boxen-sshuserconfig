@@ -62,13 +62,13 @@ Manifests
 ---------
 
 * init.pp : "include sshuserconfig" sets up .ssh/config.d folder correctly (for executing user)
-* host.pp : use this to generate a new entry
+* host.pp : generates new entries
 
 Hints
 ---------
 The local .ssh/config is overridden,
-	so make sure that to port its full content to your boxen config BEFORE executing boxen.
-A local copy of .ssh/config might suffice as well.
+	so make sure to port its full content to your Boxen config BEFORE running Boxen.
+A local backup-copy of .ssh/config might suffice as well.
 
 The feature to generate .ssh/config files for users other than the executing user has not been tested sufficiently yet.
 
@@ -76,8 +76,8 @@ Feel free to improve this solution.
 
 ToDo
 ---------
-* remove the OSX requirement and make it Linux compatible ( bascically just abstract the default user folder - thats it)
-* more docs
+* remove the OSX requirement and make it Linux compatible (basically just abstract the default user folder - thats it)
+* more documention
 
 
 
